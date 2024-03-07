@@ -1,0 +1,31 @@
+version: '2.2'
+
+services:
+  app:
+    image: pruszyns90/personal_blog:app01
+    build:
+      context: .
+      dockerfile: app.dockerfile
+    ports:
+      - "80:5000"
+    environment:
+      DB_DATABASE: blog_test
+      DB_HOST: db
+      DB_PASSWORD: password
+      DB_PORT: 5432
+      DB_USER: postgres
+      FLASK_SECRET_KEY: secret_key_8366
+      IMG_PATH: static/blog_covers
+      IMG_POST: static/post_img
+      POST_PATH: templates/posts
+  db:
+    image: pruszyns90/personal_blog:db02
+    build:
+      context: .
+      dockerfile: db.dockerfile
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: blog_test

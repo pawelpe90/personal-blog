@@ -1,0 +1,64 @@
+{% extends "blog/index.html" %}
+
+{% block header %}
+
+<div class="col alert alert-danger text-center align-center">
+    Jesteś zalogowany!
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+      <div class="col alert alert-success text-center">
+         {{ message }}
+      </div>
+    {% endfor %}
+{% endif %}
+
+<div class="container-fluid text-center">
+    <div class="row justify-content-center">
+        <a href="/add_post" class="btn btn-success col-2 mb-2 mr-2" type="button">Dodaj post</a>
+        <a href="/add_images" class="btn btn-primary col-2 mb-2 mr-2" type="button">Dodaj zdjęcia</a>
+        <a href="/delete_images" class="btn btn-primary col-2 mb-2 mr-2" type="button">Usuń zdjęcia</a>
+        <a href="/logout" class="btn btn-danger col-2 mb-2 mr-2" type="button">Wyloguj się</a>
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block page_content %}
+
+<div class="container-fluid">
+        {% for post_meta in posts_meta: %}
+        <div class="row m-3">
+                <div class="col p-2 border rounded">
+                        <div class="row">
+                                <div class="col-sm">
+                                       <img src="{{ post_meta.preview_img }} " class="img-fluid">
+                                </div>
+                                <div class="col-sm">
+                                        <h2><a href="/blog?file={{ post_meta.content }}&id={{ post_meta.id }}">{{ post_meta.title }}</a></h2>
+                                        <p>{{ post_meta.summary }}</p>
+                                        Dodano: {{ post_meta.create_date[:10] }}<br>
+                                        Wyświetlenia: {{ post_meta.views }} <br>
+                                        {% for tag in post_meta.tags %}
+                                        <a href="#" class="badge badge-light">{{ tag.category }}</a>
+                                        {% endfor %}
+                                </div>
+                                <div class="col-sm">
+                                    <div class="container text-center">
+                                        <a href="/update_post?id={{ post_meta.id }}" class="btn btn-info col-12 mb-2" type="button">Update</a>
+                                    </div>
+                                    <div class="container text-center">
+                                        <a href="/delete_post_from_database?id={{ post_meta.id }}" class="btn btn-danger col-12 mb-2" type="button">Delete</a>
+                                    </div>
+                                </div>
+                        </div>
+
+                </div>
+        </div>
+        {% endfor %}
+</div>
+
+{% endblock %}

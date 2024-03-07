@@ -1,0 +1,61 @@
+{% extends "blog/base.html" %}
+
+{% block tag_cards %}
+
+<div class="row">
+    {% for tag in tags %}
+        <div class="mb-3 mr-3">
+            <div class="card text-white bg-secondary">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <h5 class="card-title"><a href="/?tag={{ tag.category }}">{{ tag.category }}</a></h5>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block header %}
+    {% if messages %}
+        {% for message in messages %}
+          <div class="col alert alert-success text-center">
+             {{ message }}
+          </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+{% block page_content %}
+
+{% if posts_meta == None %}
+    <p class="text-center">Brak postów w tej tematyce.</p>
+{% else %}
+
+    <div class="container-fluid">
+            {% for post_meta in posts_meta: %}
+            <div class="row m-3">
+                    <div class="col p-2 border rounded">
+                            <div class="row">
+                                    <div class="col">
+                                           <img src="{{ post_meta.preview_img }} " class="img-fluid">
+                                    </div>
+                                    <div class="col-7">
+                                            <h2><a href="/blog?file={{ post_meta.content }}&id={{ post_meta.id }}">{{ post_meta.title }}</a></h2>
+                                            <p>{{ post_meta.summary }}</p>
+                                            Dodano: {{ post_meta.create_date[:10] }}<br>
+                                            {% for tag in post_meta.tags %}
+                                                <a href="/?tag={{ tag.category }}" class="badge badge-light">{{ tag.category }}</a>
+                                            {% endfor %}
+                                    </div>
+                            </div>
+
+                    </div>
+            </div>
+            {% endfor %}
+    </div>
+
+{% endif %}
+
+{% endblock %}
+
